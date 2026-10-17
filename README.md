@@ -28,6 +28,7 @@ swift build                  # build
 swift test                   # run the core tests
 swift run nMapMac             # run without bundling
 scripts/build-app.sh         # build build/nMapMac.app (release)
+scripts/make-dmg.sh          # build build/nMapMac.dmg installer
 open build/nMapMac.app
 ```
 
@@ -41,6 +42,7 @@ Sources/NMapMacCore/     Model: Nmap XML, command-line options, saved commands,
 Sources/NMapMac/         SwiftUI app: windows, tabs, target chooser, compare, search
 Tests/NMapMacTests/      Swift Testing suite with XML fixtures
 scripts/build-app.sh     Packages the .app bundle (icon, Info.plist, ad-hoc signing)
+scripts/make-dmg.sh      Wraps the app in a drag-to-install DMG
 scripts/make-icon.swift  Renders Resources/AppIcon.png
 ```
 
