@@ -17,16 +17,80 @@ A native macOS (SwiftUI) front end for the [Nmap](https://nmap.org) network scan
 
 ## Requirements
 
-- macOS 14 or later
-- Nmap (`brew install nmap`); the path can be set in Settings
-- Swift 5.10+ toolchain (Xcode or Command Line Tools)
+- macOS 14 (Sonoma) or later
+- [Nmap](https://nmap.org) — nMapMac is a front end, so Nmap itself must be installed (see below)
+- To build from source: Xcode or the Command Line Tools (Swift 5.10+)
 
-## Build and run
+## Install
+
+### 1. Install Nmap
+
+Check whether Nmap is already installed by opening **Terminal** and running:
+
+```sh
+nmap --version
+```
+
+If you see a version number, skip to step 2. If you see `command not found`, install it with [Homebrew](https://brew.sh):
+
+1. If you don't have Homebrew, install it first (it asks for your password, and may ask to install Apple's Command Line Tools):
+
+   ```sh
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+   When it finishes, follow the **Next steps** it prints to add `brew` to your PATH (on Apple silicon Macs this is usually the two `echo … >> ~/.zprofile` and `eval …` lines), then open a new Terminal window.
+
+2. Install Nmap:
+
+   ```sh
+   brew install nmap
+   ```
+
+3. Confirm it works: `nmap --version`
+
+nMapMac looks for Nmap in `/opt/homebrew/bin` (Apple silicon), `/usr/local/bin` (Intel) and your PATH. If you installed it somewhere else, set the path in **nMapMac → Settings…**. Nmap's official macOS installer from [nmap.org/download](https://nmap.org/download.html#macosx) works too.
+
+### 2. Add nMapMac to Applications
+
+**From the DMG**
+
+1. Double-click `nMapMac.dmg` to open it.
+2. Drag the **nMapMac** icon onto the **Applications** folder shortcut in the same window.
+3. Eject the disk image (click ⏏ next to "nMapMac" in Finder's sidebar), then delete the DMG if you like.
+4. Open nMapMac from **Launchpad**, Spotlight (⌘Space, type "nMapMac") or the Applications folder.
+
+**From source**
+
+Clone this repository (the green **Code** button on GitHub), then in its folder:
+
+```sh
+scripts/make-dmg.sh          # creates build/nMapMac.dmg — then follow the steps above
+```
+
+Or copy the app straight in: `scripts/build-app.sh && cp -R build/nMapMac.app /Applications/`
+
+To update, quit nMapMac and replace the copy in Applications with the new one. To uninstall, drag it from Applications to the Trash (your saved commands and scan history are in `~/Library/Application Support/nMapMac/`).
+
+### "nMapMac can't be opened" on first launch
+
+The app isn't signed with an Apple Developer ID, so macOS blocks it the first time when it was downloaded from the internet. To allow it once:
+
+- **Right-click** (or Control-click) nMapMac in Applications, choose **Open**, then **Open** again; or
+- Try to open it, then go to **System Settings → Privacy & Security** and click **Open Anyway**.
+
+Builds made on your own Mac aren't affected.
+
+### Scans that need administrator access
+
+SYN scans (`-sS`), OS detection (`-O`) and UDP scans (`-sU`) need root; without it, the Intense scans skip OS detection and traceroute. Click the **lock** in the toolbar (or **Scan → Run as Administrator**) and macOS will ask for your password when the scan starts.
+
+## Build and run (development)
 
 ```sh
 swift build                  # build
 swift test                   # run the core tests
-swift run nMapMac             # run without bundling
+swift run nMapMac            # run without bundling
 scripts/build-app.sh         # build build/nMapMac.app (release)
 scripts/make-dmg.sh          # build build/nMapMac.dmg installer
 open build/nMapMac.app
