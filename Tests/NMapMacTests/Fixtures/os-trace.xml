@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<nmaprun scanner="nmap" args="nmap -T4 -A -v 10.0.0.0/30" start="1700000000" version="7.94" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="1000" services="1-1000"/>
+<verbose level="1"/>
+<debugging level="0"/>
+<host starttime="1700000001" endtime="1700000050">
+<status state="up" reason="echo-reply" reason_ttl="62"/>
+<address addr="10.0.0.2" addrtype="ipv4"/>
+<address addr="AA:BB:CC:DD:EE:FF" addrtype="mac" vendor="Acme"/>
+<hostnames><hostname name="web.example.com" type="PTR"/></hostnames>
+<ports>
+<extraports state="closed" count="997"/>
+<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="62"/><service name="ssh" product="OpenSSH" version="8.9p1" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10"/></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="62"/><service name="http" product="nginx" version="1.18.0" method="probed" conf="10"/><script id="http-title" output="Welcome"/></port>
+<port protocol="tcp" portid="443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+</ports>
+<os>
+<portused state="open" proto="tcp" portid="22"/>
+<osmatch name="Linux 5.0 - 5.14" accuracy="98" line="1">
+<osclass type="general purpose" vendor="Linux" osfamily="Linux" osgen="5.X" accuracy="98"><cpe>cpe:/o:linux:linux_kernel:5</cpe></osclass>
+</osmatch>
+<osmatch name="Ubuntu Linux 22.04" accuracy="90" line="2">
+<osclass type="general purpose" vendor="Linux" osfamily="Linux" osgen="5.X" accuracy="90"/>
+</osmatch>
+</os>
+<uptime seconds="86400" lastboot="Tue Nov 14 00:00:00 2023"/>
+<distance value="3"/>
+<tcpsequence index="260" difficulty="Good luck!" values="1,2,3"/>
+<ipidsequence class="All zeros" values="0,0,0"/>
+<tcptssequence class="1000HZ" values="A,B,C"/>
+<trace port="80" proto="tcp">
+<hop ttl="1" ipaddr="192.168.1.1" rtt="1.00" host="router.lan"/>
+<hop ttl="2" ipaddr="10.0.0.1" rtt="5.00"/>
+<hop ttl="3" ipaddr="10.0.0.2" rtt="9.00" host="web.example.com"/>
+</trace>
+<hostscript><script id="clock-skew" output="mean: 0s"/></hostscript>
+</host>
+<host><status state="up" reason="echo-reply"/>
+<address addr="10.0.0.3" addrtype="ipv4"/>
+<ports><port protocol="tcp" portid="3389"><state state="open" reason="syn-ack"/><service name="ms-wbt-server"/></port></ports>
+<os><osmatch name="Microsoft Windows 10" accuracy="95"><osclass vendor="Microsoft" osfamily="Windows" osgen="10" accuracy="95"/></osmatch></os>
+<trace><hop ttl="1" ipaddr="192.168.1.1" rtt="1.00"/><hop ttl="2" ipaddr="10.0.0.3" rtt="4.00"/></trace>
+</host>
+<host><status state="down" reason="no-response"/><address addr="10.0.0.1" addrtype="ipv4"/></host>
+<runstats><finished time="1700000060" elapsed="60.00" summary="Nmap done" exit="success"/><hosts up="2" down="1" total="3"/></runstats>
+</nmaprun>
